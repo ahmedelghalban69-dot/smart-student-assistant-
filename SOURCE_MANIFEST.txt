@@ -1,0 +1,19 @@
+UNIFIED V2250 SOURCE MANIFEST
+
+This archive consolidates the current executable project baseline and the accumulated functional requirements from prior development stages.
+It is intentionally one release rather than 2250 duplicated project trees.
+
+Flutter app:
+- lib/models/study_models.dart
+- lib/services/app_state.dart
+- lib/services/ai_service.dart
+- lib/screens/*
+- lib/core/*
+- lib/widgets/*
+
+Backend:
+- backend/server.js
+- backend/.env.example
+
+Branding:
+- assets/branding/app_logo.png
