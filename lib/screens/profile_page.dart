@@ -54,7 +54,6 @@ class ProfilePage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
             ...state.reviews.map(
               (review) => Card(
                 child: ListTile(
@@ -79,35 +78,29 @@ class ProfilePage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            RadioListTile<String>(
-              title: const Text('حسب الجهاز'),
-              value: 'system',
+            RadioGroup<String>(
               groupValue: state.themeMode,
               onChanged: (value) {
                 if (value != null) {
                   state.setTheme(value);
                 }
               },
-            ),
-            RadioListTile<String>(
-              title: const Text('فاتح'),
-              value: 'light',
-              groupValue: state.themeMode,
-              onChanged: (value) {
-                if (value != null) {
-                  state.setTheme(value);
-                }
-              },
-            ),
-            RadioListTile<String>(
-              title: const Text('داكن'),
-              value: 'dark',
-              groupValue: state.themeMode,
-              onChanged: (value) {
-                if (value != null) {
-                  state.setTheme(value);
-                }
-              },
+              child: const Column(
+                children: [
+                  RadioListTile<String>(
+                    title: Text('حسب الجهاز'),
+                    value: 'system',
+                  ),
+                  RadioListTile<String>(
+                    title: Text('فاتح'),
+                    value: 'light',
+                  ),
+                  RadioListTile<String>(
+                    title: Text('داكن'),
+                    value: 'dark',
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             const Card(
