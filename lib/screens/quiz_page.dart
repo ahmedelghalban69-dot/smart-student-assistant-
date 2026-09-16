@@ -220,7 +220,8 @@ class _QuizPageState extends State<QuizPage> {
             ),
             if (answered)
               Card(
-                color: Theme.of(context).colorScheme.surfaceVariant,
+                color:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: Padding(
                   padding: const EdgeInsets.all(14),
                   child: Text(
