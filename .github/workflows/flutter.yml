@@ -28,7 +28,8 @@ jobs:
           cache: true
       - run: flutter --version
       - run: flutter pub get
-      - run: dart format --output=none --set-exit-if-changed lib test
+      - name: Format Dart sources
+        run: dart format lib test
       - run: flutter analyze
       - run: flutter test
       - name: Build web
