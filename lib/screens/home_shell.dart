@@ -10,13 +10,15 @@ class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  State<HomeShell> createState() =>
+      _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState
+    extends State<HomeShell> {
   int index = 0;
 
-  final List<Widget> pages = const [
+  static const pages = [
     Dashboard(),
     PlanPage(),
     SubjectsPage(),
@@ -24,7 +26,7 @@ class _HomeShellState extends State<HomeShell> {
     ProfilePage(),
   ];
 
-  final List<String> labels = [
+  static const labels = [
     'الرئيسية',
     'الخطة',
     'المواد',
@@ -32,7 +34,7 @@ class _HomeShellState extends State<HomeShell> {
     'حسابي',
   ];
 
-  final List<IconData> icons = [
+  static const icons = [
     Icons.home_rounded,
     Icons.calendar_month_rounded,
     Icons.menu_book_rounded,
@@ -42,29 +44,72 @@ class _HomeShellState extends State<HomeShell> {
 
   @override
   Widget build(BuildContext context) {
+    final colors =
+        Theme.of(context).colorScheme;
+
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
+        backgroundColor: colors.surface,
         body: SafeArea(
+          bottom: false,
           child: IndexedStack(
             index: index,
             children: pages,
           ),
         ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: index,
-          onDestinationSelected: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          destinations: [
-            for (var i = 0; i < labels.length; i++)
-              NavigationDestination(
-                icon: Icon(icons[i]),
-                label: labels[i],
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              color: colors.surface,
+              border: Border(
+                top: BorderSide(
+                  color: colors.outlineVariant
+                      .withValues(alpha: 0.45),
+                ),
               ),
-          ],
+              boxShadow: [
+                BoxShadow(
+                  color: colors.shadow
+                      .withValues(alpha: 0.08),
+                  blurRadius: 18,
+                  offset: const Offset(0, -5),
+                ),
+              ],
+            ),
+            child: NavigationBar(
+              height: 72,
+              elevation: 0,
+              backgroundColor:
+                  Colors.transparent,
+              indicatorColor:
+                  colors.primaryContainer,
+              selectedIndex: index,
+              onDestinationSelected:
+                  (value) {
+                setState(
+                  () => index = value,
+                );
+              },
+              labelBehavior:
+                  NavigationDestinationLabelBehavior
+                      .alwaysShow,
+              destinations: [
+                for (var i = 0;
+                    i < labels.length;
+                    i++)
+                  NavigationDestination(
+                    icon: Icon(icons[i]),
+                    selectedIcon: Icon(
+                      icons[i],
+                      color: colors.primary,
+                    ),
+                    label: labels[i],
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
