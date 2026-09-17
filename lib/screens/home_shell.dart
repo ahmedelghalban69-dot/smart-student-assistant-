@@ -18,7 +18,7 @@ class _HomeShellState
     extends State<HomeShell> {
   int index = 0;
 
-  static const pages = [
+  static const List<Widget> pages = [
     Dashboard(),
     PlanPage(),
     SubjectsPage(),
@@ -48,9 +48,12 @@ class _HomeShellState
         Theme.of(context).colorScheme;
 
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection:
+          TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: colors.surface,
+        backgroundColor:
+            colors.surface,
+
         body: SafeArea(
           bottom: false,
           child: IndexedStack(
@@ -58,28 +61,37 @@ class _HomeShellState
             children: pages,
           ),
         ),
-        bottomNavigationBar: SafeArea(
+
+        bottomNavigationBar:
+            SafeArea(
           top: false,
           child: Container(
-            decoration: BoxDecoration(
+            decoration:
+                BoxDecoration(
               color: colors.surface,
               border: Border(
                 top: BorderSide(
-                  color: colors.outlineVariant
-                      .withValues(alpha: 0.45),
+                  color: colors
+                      .outlineVariant
+                      .withValues(
+                        alpha: 0.45,
+                      ),
                 ),
               ),
               boxShadow: [
                 BoxShadow(
                   color: colors.shadow
-                      .withValues(alpha: 0.08),
-                  blurRadius: 18,
-                  offset: const Offset(0, -5),
+                      .withValues(
+                        alpha: 0.08,
+                      ),
+                  blurRadius: 20,
+                  offset:
+                      const Offset(0, -6),
                 ),
               ],
             ),
             child: NavigationBar(
-              height: 72,
+              height: 76,
               elevation: 0,
               backgroundColor:
                   Colors.transparent,
@@ -100,10 +112,16 @@ class _HomeShellState
                     i < labels.length;
                     i++)
                   NavigationDestination(
-                    icon: Icon(icons[i]),
-                    selectedIcon: Icon(
+                    icon: Icon(
                       icons[i],
-                      color: colors.primary,
+                      size: 23,
+                    ),
+                    selectedIcon:
+                        Icon(
+                      icons[i],
+                      color:
+                          colors.primary,
+                      size: 24,
                     ),
                     label: labels[i],
                   ),
