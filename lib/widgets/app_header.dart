@@ -12,97 +12,83 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors =
-        Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
 
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: 58,
-          height: 58,
-          padding:
-              const EdgeInsets.all(4),
+          width: 62,
+          height: 62,
+          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color:
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
                 colors.primaryContainer,
-            borderRadius:
-                BorderRadius.circular(19),
+                colors.surface,
+              ],
+            ),
+            borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: colors.primary
-                  .withValues(
-                    alpha: 0.10,
-                  ),
+              color: colors.outlineVariant.withValues(alpha: 0.45),
             ),
             boxShadow: [
               BoxShadow(
-                color: colors.shadow
-                    .withValues(
-                      alpha: 0.07,
-                    ),
-                blurRadius: 12,
-                offset:
-                    const Offset(0, 5),
+                color: colors.shadow.withValues(alpha: 0.10),
+                blurRadius: 18,
+                offset: const Offset(0, 7),
               ),
             ],
           ),
           child: ClipRRect(
-            borderRadius:
-                BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(16),
             child: Image.asset(
               'assets/branding/app_logo.png',
               fit: BoxFit.cover,
-              errorBuilder:
-                  (context, error, stackTrace) {
+              errorBuilder: (_, __, ___) {
                 return Container(
-                  color: colors.primary,
-                  child: const Icon(
+                  decoration: BoxDecoration(
+                    color: colors.primaryContainer,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Icon(
                     Icons.school_rounded,
-                    color: Colors.white,
-                    size: 29,
+                    color: colors.primary,
+                    size: 30,
                   ),
                 );
               },
             ),
           ),
         ),
-
         const SizedBox(width: 14),
-
         Expanded(
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
                 maxLines: 1,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(
-                      fontWeight:
-                          FontWeight.w900,
-                      letterSpacing: -0.5,
-                    ),
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: -0.7,
+                  height: 1.1,
+                ),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 7),
               Text(
                 subtitle,
                 maxLines: 2,
-                overflow:
-                    TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(
-                      color: colors
-                          .onSurfaceVariant,
-                      height: 1.35,
-                      fontWeight:
-                          FontWeight.w600,
-                    ),
+                overflow: TextOverflow.ellipsis,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: colors.onSurfaceVariant,
+                  height: 1.4,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
