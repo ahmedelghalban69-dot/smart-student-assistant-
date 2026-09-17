@@ -150,7 +150,8 @@ class Dashboard extends StatelessWidget {
   }
 
   Widget _hero(BuildContext context, AppState state) {
-    final progress = state.learningProgress.clamp(0.0, 1.0);
+    final double progress =
+        state.learningProgress.clamp(0.0, 1.0).toDouble();
 
     return Container(
       padding: const EdgeInsets.all(20),
@@ -169,7 +170,7 @@ class Dashboard extends StatelessWidget {
             color: Theme.of(context)
                 .colorScheme
                 .primary
-                .withOpacity(0.10),
+                .withValues(alpha: 0.10),
             blurRadius: 22,
             offset: const Offset(0, 8),
           ),
@@ -627,9 +628,8 @@ class Dashboard extends StatelessWidget {
   ) {
     final titleController = TextEditingController();
 
-    String? subject = state.subjects.isEmpty
-        ? null
-        : state.subjects.first.name;
+    String? subject =
+        state.subjects.isEmpty ? null : state.subjects.first.name;
 
     showDialog<void>(
       context: context,
@@ -835,8 +835,7 @@ class _SessionPageState extends State<_SessionPage> {
     final remainingSeconds =
         (seconds % 60).toString().padLeft(2, '0');
 
-    final progress =
-        1 - (seconds / (25 * 60));
+    final progress = 1 - (seconds / (25 * 60));
 
     return Scaffold(
       appBar: AppBar(
@@ -882,7 +881,7 @@ class _SessionPageState extends State<_SessionPage> {
                         width: 235,
                         height: 235,
                         child: CircularProgressIndicator(
-                          value: progress.clamp(0.0, 1.0),
+                          value: progress.clamp(0.0, 1.0).toDouble(),
                           strokeWidth: 12,
                         ),
                       ),
