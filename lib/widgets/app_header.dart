@@ -1,2 +1,91 @@
 import 'package:flutter/material.dart';
-class AppHeader extends StatelessWidget{final String title,subtitle;const AppHeader({super.key,required this.title,required this.subtitle});@override Widget build(BuildContext c)=>Row(children:[ClipRRect(borderRadius:BorderRadius.circular(16),child:Image.asset('assets/branding/app_logo.png',width:52,height:52,errorBuilder:(_,__,___)=>Container(width:52,height:52,color:Theme.of(c).colorScheme.primary,child:const Icon(Icons.school,color:Colors.white)))),const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(title,style:Theme.of(c).textTheme.headlineSmall?.copyWith(fontWeight:FontWeight.w800)),const SizedBox(height:2),Text(subtitle,style:Theme.of(c).textTheme.bodyMedium?.copyWith(color:Theme.of(c).colorScheme.onSurfaceVariant))]))]);}
+
+class AppHeader extends StatelessWidget {
+  const AppHeader({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors =
+        Theme.of(context).colorScheme;
+
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                maxLines: 1,
+                overflow:
+                    TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.4,
+                    ),
+              ),
+              const SizedBox(height: 5),
+              Text(
+                subtitle,
+                maxLines: 2,
+                overflow:
+                    TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(
+                      color:
+                          colors.onSurfaceVariant,
+                      height: 1.35,
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 14),
+        Container(
+          width: 58,
+          height: 58,
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            color: colors.primaryContainer,
+            borderRadius:
+                BorderRadius.circular(19),
+            border: Border.all(
+              color: colors.primary
+                  .withValues(alpha: 0.10),
+            ),
+          ),
+          child: ClipRRect(
+            borderRadius:
+                BorderRadius.circular(15),
+            child: Image.asset(
+              'assets/branding/app_logo.png',
+              fit: BoxFit.cover,
+              errorBuilder:
+                  (context, error, stackTrace) {
+                return Icon(
+                  Icons.school_rounded,
+                  color: colors.primary,
+                  size: 29,
+                );
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
