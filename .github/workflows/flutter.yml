@@ -1,0 +1,99 @@
+name: Smart Student Assistant — Flutter CI & APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: flutter-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AI_ENDPOINT: ${{ vars.AI_ENDPOINT }}
+
+jobs:
+  verify:
+    name: Verify Flutter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Flutter version
+        run: flutter --version
+      - name: Get dependencies
+        run: flutter pub get
+      - name: Format check
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Analyze
+        run: flutter analyze
+      - name: Tests
+        run: flutter test
+      - name: Build web
+        run: flutter build web --release --dart-define=AI_ENDPOINT=${AI_ENDPOINT}
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-student-assistant-web-${{ github.sha }}
+          path: build/web
+          retention-days: 14
+
+  android:
+    name: Build Android APK
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Verify Android project
+        run: |
+          test -f android/settings.gradle
+          test -f android/build.gradle
+          test -f android/app/build.gradle
+          test -f android/gradle/wrapper/gradle-wrapper.properties
+          echo "Android Gradle project found."
+      - name: Configure Flutter SDK for Gradle
+        run: |
+          printf 'flutter.sdk=%s\n' "$FLUTTER_ROOT" > android/local.properties
+      - name: Get dependencies
+        run: flutter pub get
+      - name: Build APK
+        env:
+          AI_ENDPOINT: ${{ env.AI_ENDPOINT }}
+        run: |
+          if [ -n "$AI_ENDPOINT" ]; then
+            DART_DEFINES=$(printf 'AI_ENDPOINT=%s' "$AI_ENDPOINT" | base64 -w0)
+            gradle -p android assembleRelease --no-daemon --stacktrace -Pdart-defines="$DART_DEFINES"
+          else
+            gradle -p android assembleRelease --no-daemon --stacktrace
+          fi
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-student-assistant-${{ github.sha }}-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
