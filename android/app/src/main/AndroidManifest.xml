@@ -3,7 +3,7 @@
     <application
         android:label="مساعد الطالب الذكي"
         android:name="${applicationName}"
-        android:icon="@drawable/app_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:allowBackup="true"
         android:supportsRtl="true">
 
