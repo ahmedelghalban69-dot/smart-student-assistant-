@@ -130,10 +130,10 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Set up Gradle 8.10.2
+      - name: Set up Gradle 8.14.3
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: "8.10.2"
+          gradle-version: "8.14.3"
 
       - name: Show Flutter, Dart, Java and Gradle versions
         run: |
@@ -179,10 +179,13 @@ jobs:
           if [ -n "$AI_ENDPOINT" ]; then
             DART_DEFINE_VALUE="AI_ENDPOINT=$AI_ENDPOINT"
             DART_DEFINES="$(printf '%s' "$DART_DEFINE_VALUE" | base64 -w 0)"
+
             echo "DART_DEFINES=$DART_DEFINES" >> "$GITHUB_ENV"
+
             echo "AI endpoint Dart define prepared."
           else
             echo "DART_DEFINES=" >> "$GITHUB_ENV"
+
             echo "No AI endpoint was provided."
           fi
 
@@ -207,6 +210,7 @@ jobs:
       - name: Verify generated APK
         run: |
           test -f build/app/outputs/flutter-apk/app-release.apk
+
           ls -lh build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload Android APK artifact
